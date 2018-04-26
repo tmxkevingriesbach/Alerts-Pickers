@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
 
-  s.name         = "RLBAlertsPickers"
+  s.name         = "TMXAlertsPickers"
   s.version      = "1.0"
   s.summary      = "Advanced usage of UIAlertController with TextField, DatePicker, PickerView, TableView and CollectionView."
   s.homepage     = "https://github.com/Appsido/Alerts-Pickers.git"
