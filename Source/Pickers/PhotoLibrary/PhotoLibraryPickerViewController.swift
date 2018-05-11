@@ -17,7 +17,7 @@ extension UIAlertController {
         var asset: PHAsset?
         var assets: [PHAsset] = []
         
-        let buttonAdd = UIAlertAction(title: "Add", style: .default) { action in
+        let buttonAdd = UIAlertAction(title: NSLocalizedString("Add", comment: ""), style: .default) { action in
             switch selection {
                 
             case .single(let action):
@@ -178,14 +178,16 @@ final public class PhotoLibraryPickerViewController: UIViewController {
         case .denied, .restricted:
             /// User has denied the current app to access the contacts.
             let productName = Bundle.main.infoDictionary!["CFBundleName"]!
-            let alert = UIAlertController(style: .alert, title: "Permission denied", message: "\(productName) does not have access to contacts. Please, allow the application to access to your photo library.")
-            alert.addAction(title: "Settings", style: .destructive) { action in
+            let alert = UIAlertController(style: .alert, title: NSLocalizedString("Permission denied", comment: ""), message: "\(productName)" + NSLocalizedString(" does not have access to photos. Please, allow the application to access to your photo library.", comment: ""))
+            alert.addAction(title: NSLocalizedString("Settings", comment: ""), style: .destructive) { action in
                 if let settingsURL = URL(string: UIApplicationOpenSettingsURLString) {
                     UIApplication.shared.open(settingsURL)
                 }
             }
             alert.addAction(title: "OK", style: .cancel) { [unowned self] action in
-                self.alertController?.dismiss(animated: true)
+                if self != nil, self.alertController != nil {
+                    self.alertController?.dismiss(animated: true)
+                }
             }
             alert.show()
         }
