@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "TMXAlertsPickers"
-  s.version      = "1.0.3"
+  s.version      = "1.0.4"
   s.summary      = "Advanced usage of UIAlertController with TextField, DatePicker, PickerView, TableView and CollectionView."
   s.homepage     = "https://github.com/tmxkevingriesbach/Alerts-Pickers.git"
   s.license      = "MIT"
