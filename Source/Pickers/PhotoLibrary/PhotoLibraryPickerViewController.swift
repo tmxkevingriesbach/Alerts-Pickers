@@ -185,7 +185,7 @@ final public class PhotoLibraryPickerViewController: UIViewController {
                 }
             }
             alert.addAction(title: "OK", style: .cancel) { [unowned self] action in
-                if self != nil, self.alertController != nil {
+                if self.alertController != nil {
                     self.alertController?.dismiss(animated: true)
                 }
             }
