@@ -27,7 +27,7 @@ extension UIAlertController {
 
 
 final public class TelegramPickerViewController: UIViewController {
-
+    
     var buttons: [ButtonType] {
         return selectedAssets.count == 0
             ? [.photoOrVideo, .location, .contact]
@@ -93,14 +93,14 @@ final public class TelegramPickerViewController: UIViewController {
     }
     
     // MARK: Properties
-
+    
     fileprivate lazy var collectionView: UICollectionView = { [unowned self] in
         $0.dataSource = self
         $0.delegate = self
         $0.allowsMultipleSelection = true
         $0.showsVerticalScrollIndicator = false
         $0.showsHorizontalScrollIndicator = false
-        $0.decelerationRate = UIScrollViewDecelerationRateFast
+        $0.decelerationRate = UIScrollView.DecelerationRate.fast
         $0.contentInsetAdjustmentBehavior = .never
         $0.contentInset = UI.insets
         $0.backgroundColor = .clear
@@ -165,7 +165,7 @@ final public class TelegramPickerViewController: UIViewController {
         
         updatePhotos()
     }
-        
+    
     override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         layoutSubviews()
@@ -210,7 +210,7 @@ final public class TelegramPickerViewController: UIViewController {
             let productName = Bundle.main.infoDictionary!["CFBundleName"]!
             let alert = UIAlertController(style: .alert, title: "Permission denied", message: "\(productName) does not have access to contacts. Please, allow the application to access to your photo library.")
             alert.addAction(title: "Settings", style: .destructive) { action in
-                if let settingsURL = URL(string: UIApplicationOpenSettingsURLString) {
+                if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
                     UIApplication.shared.open(settingsURL)
                 }
             }
@@ -218,6 +218,10 @@ final public class TelegramPickerViewController: UIViewController {
                 self.alertController?.dismiss(animated: true)
             }
             alert.show()
+        @unknown default:
+            Assets.requestAccess { [unowned self] status in
+                self.checkStatus(completionHandler: completionHandler)
+            }
         }
     }
     
@@ -248,7 +252,7 @@ final public class TelegramPickerViewController: UIViewController {
         selection?(TelegramSelectionType.photo(selectedAssets))
         
         let currentCount = selectedAssets.count
-
+        
         if (previousCount == 0 && currentCount > 0) || (previousCount > 0 && currentCount == 0) {
             UIView.animate(withDuration: 0.25, animations: {
                 self.layout.invalidateLayout()
@@ -264,9 +268,9 @@ final public class TelegramPickerViewController: UIViewController {
             
         case .photoOrVideo:
             alertController?.addPhotoLibraryPicker(flow: .vertical, paging: false,
-                selection: .multiple(action: { assets in
-                    self.selection?(TelegramSelectionType.photo(assets))
-                }))
+                                                   selection: .multiple(action: { assets in
+                                                    self.selection?(TelegramSelectionType.photo(assets))
+                                                   }))
             
         case .file:
             
